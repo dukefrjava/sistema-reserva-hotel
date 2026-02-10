@@ -1,0 +1,151 @@
+Regras de Projeto
+
+	Objetivo: 
+		Cadastrar reservas
+		Listar as reservas cadastradas
+		Buscar reservas por nome do hóspedes
+		Ordenar reservas pelo número de dias (ordem decrescente)
+		
+	Regras do Sistema:
+		1. Menu Principal - Opções (switch)
+			a. Cadastrar nova reserva
+			b. Listar reservas
+			c. Buscar reserva por nome do hóspedes
+			d. Ordernar reservas por número de dias (ordem decrescente)
+			e. Sair
+			
+		2. Cadastro de Reserva (a. Cadastrar nova reserva)
+			a. Ler os dados via Scanner
+			b. Nome do hóspede (String)
+			c. Tipo do quarto (Standard, Luxo, Presidencial) (String) [FAZER]
+			d. Número de dias da estadia (int)
+			e. Mostrar valor da diária (double)
+			f. Perguntar: Deseja confirmar reserva? SIM | NÂO
+			
+		3. Armazenamento
+			a. Utilizar vetor fixo para reservas (capacidade de 10 reservas)
+			b. Controlar a quantidade de reservas com um contador
+				b.1. Caso já tenha chegado no numero máximo de reserva, informar que hotel esta cheiro
+		
+		4. Listagem (b. Listar reservas)
+			a. Listar todos os hospedes cadastrados. exibindo:
+				a.1. Nome, tipo do quarto, dias de estadia, valor total da reserva (dias * valor)
+				
+		5. Busca (c. Buscar reserva por nome do hóspedes)
+			a. Buscar por parte do nome do hóspede (sem diferenciar letras maiúsculas e minusculas)
+			
+		6. Ordenação (d. Ordenar reservas por número de dias (ordem decrescente)
+			a. Ordenar o vetor de reservas com base na quantidade de dias (ordem decresente)
+		
+		
+		
+		
+Fluxo 
+
+					     (    INÍCIO    )
+								↓
+					  (EXIBIR MENU PRINCIPAL)
+								↓
+						(LER OPÇÃO DO USUÁRIO)
+								↓
+							< OPÇÃO > 
+		                        |
+		 _______________________|___________________________________________________________                       					
+	    |				  |		                 |                          |               |
+		↓				  ↓                      ↓							↓     			↓	
+ | Nova reserva | | Listar Reserva | | Buscar por nome do hóspede | | Ordenar por dias | | Sair |
+		↓                 ↓                         ↓                         ↓             |
+ | Coleta dados |   |  Retorna as |        | Digite o nome do |         | Retorna as |		|
+ 		↓           |  reservas   |        |      hospede     |         |  reservas  |		|
+ | Mostra valor |         ↓                         ↓                         ↓				|
+ |    total     |   | Voltar para |       | Retorna as reservas |       | Voltar para |     |
+ 		↓           | 	 Menu     |       | com nome informado  |       |     Menu    |		|
+ 	< Opção >             |                         ↓                          |			|
+ 	|      |              |                | Voltar para Menu |                |			|
+ 	|      |              |_____________            |                          |			|
+ 	|      |_________                   |           |                          |			|
+    ↓			     ↓                  |           |                          |			|
+| Confirmar |	|  Cancelar |           |           |                          |			|
+|  reserva  |	|  reserva  |           |           |      ____________________|    ________|            
+	  ↓				  |                 |           |     |        				   |
+|  Salvar   |         |                 |           |     |		___________________|
+|  reserva  |         |					|			|     |	   |
+      ↓               ↓					|			|     |	   |
+	| Voltar para Menu | 				|			|     |	   |
+			|							|			|     |	   |
+	        | 							|			|     |	   |
+	        |_______________________    |           |     |	   |    
+	                                ↓   ↓           ↓     ↓    ↓
+	                               (             FIM             )
+		
+	
+	
+
+Estrutura do Código
+	Classe
+		Reserva - Objeto
+			Atributos da classe
+			- nome do hospede: nomeHospede (String)
+			- tipo do quarto: tipoQuarto (String)
+			- número de dias da diaria: numeroDiasDiaria (int)
+			- valor total da diaria: valorDiaria (double)
+			
+			Métodos
+			- Construtor (recebe os parametros para criação do objeto)
+			- Getters e Setters
+			- Calcular valor total da diaria: quantidade de dias * valor da diaria (double)
+			- toString ou criar um método que mostra todos os dados de forma organizada + valor total da diaria
+			
+	
+	
+Exemplo de código executável (em java) que ilustra a criação de uma classe Reserva:
+	
+	public class Reserva {
+	    private String nomeHospede;
+	    private int diasHospedagem;
+	    private double valorDiaria;
+	
+	    public Reserva(String nomeHospede, int diasHospedagem, double valorDiaria) {
+	        this.nomeHospede = nomeHospede;
+	        this.diasHospedagem = diasHospedagem;
+	        this.valorDiaria = valorDiaria;
+	    }
+	
+	    public String getNomeHospede() {
+	        return nomeHospede;
+	    }
+	
+	    public void setNomeHospede(String nomeHospede) {
+	        this.nomeHospede = nomeHospede;
+	    }
+	
+	    public int getDiasHospedagem() {
+	        return diasHospedagem;
+	    }
+	
+	    public void setDiasHospedagem(int diasHospedagem) {
+	        this.diasHospedagem = diasHospedagem;
+	    }
+	
+	    public double calcularValorTotal() {
+	        return diasHospedagem * valorDiaria;
+	    }
+	
+	    @Override
+	    public String toString() {
+	        return "Reserva{" +
+	                "nomeHospede='" + nomeHospede + '\'' +
+	                ", diasHospedagem=" + diasHospedagem +
+	                ", valorTotal=" + calcularValorTotal() +
+	                '}';
+	    }
+	}
+	
+	! Não verificar se o array de reservas está cheio antes de adicionar uma nova reserva
+		Exemplo:
+			if (contadorReservas < reservas.length) {
+    			reservas[contadorReservas] = new Reserva("Maria", 3, 300.0);
+    			contadorReservas++;
+			} else {
+    			System.out.println("Não é possível adicionar mais reservas.");
+			}
